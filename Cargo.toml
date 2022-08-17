@@ -1,0 +1,32 @@
+[package]
+name = "crate-template"
+version = "0.1.0"
+authors = ["wangliqiu <wangviviying@163.com>"]
+edition = "2021"
+
+
+#[[bin]]
+#name = "guess_num"  # 位于 target/(debug|release)/目录下
+#path = "src/bin/demo.rs"
+#required-features = []
+
+[dependencies]
+# -----------------------------------------------------------------------------------------------------------
+pretty_assertions = "1.2"
+
+# -----------------------------------------------------------------------------------------------------------
+flate2 = "1.0"
+
+
+
+
+
+[dev-dependencies]
+# apt-get install gnuplot
+criterion = "0.3"
+
+
+#[[bench]]
+#name = "criterion_bench"
+#harness = false # `libtest` harness is disabled
+
