@@ -1,1 +1,1 @@
-mod flate2;
+pub mod flate2_tar;

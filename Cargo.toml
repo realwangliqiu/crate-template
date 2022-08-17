@@ -5,11 +5,6 @@ authors = ["wangliqiu <wangviviying@163.com>"]
 edition = "2021"
 
 
-#[[bin]]
-#name = "guess_num"  # 位于 target/(debug|release)/目录下
-#path = "src/bin/demo.rs"
-#required-features = []
-
 [dependencies]
 # -----------------------------------------------------------------------------------------------------------
 pretty_assertions = "1.2"
