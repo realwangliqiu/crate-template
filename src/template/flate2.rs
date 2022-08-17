@@ -1,36 +1,55 @@
-
-
 use std::fs::File;
+use std::path::Path;
 use flate2::read::GzDecoder;
 use tar::Archive;
-
-fn dd() -> Result<(), std::io::Error> {
-    let path = "archive.tar.gz";
-
-    let tar_gz = File::open(path)?;
-    let tar = GzDecoder::new(tar_gz);
-    let mut archive = Archive::new(tar);
-    archive.unpack(".")?;
-
-    Ok(())
-}
-
 use flate2::Compression;
 use flate2::write::GzEncoder;
 use tar::Builder;
 
-const TMP_PATH: &str = "./_tmp";
+///
+fn compress<P, Q>(src_path: P, dst_path: Q) -> Result<(), std::io::Error>
+    where
+        P: AsRef<Path>,
+        Q: AsRef<Path>,
+{
+    let file = File::create(dst_path)?;
+    let write = GzEncoder::new(file, Compression::default());
+    // tar::Builder
+    Builder::new(write)
+        // path -> the name of the directory in the archive
+        // src_path -> source files
+        .append_dir_all("", src_path).unwrap();
 
-#[test]
-fn main() -> Result<(), std::io::Error> {
-    let file = File::create("archive.tar.gz")?;
-    let enc = GzEncoder::new(file, Compression::default());
-    let mut tar = Builder::new(enc);
-    tar.append_dir_all("backup/logs", "/var/log")?;
+    Ok(())
+}
+
+
+fn decompress<P, Q>(src_path: P, dst_path: Q) -> Result<(), std::io::Error>
+    where
+        P: AsRef<Path>,
+        Q: AsRef<Path>,
+{
+    let file = File::open(src_path)?;
+    let read = GzDecoder::new(file);
+    // tar::archive
+    Archive::new(read).unpack(dst_path)?;
+
     Ok(())
 }
 
 #[cfg(test)]
 mod tests {
+    use std::path::Path;
+    use crate::template::flate2::{compress, decompress};
 
+    const PATH_TMP: &str = "./_tmp";
+
+    #[test]
+    fn base() {
+        let path = Path::new(PATH_TMP).join("archive.tar.gz");
+        let tar = Path::new(PATH_TMP).join("tar");
+
+        compress("./src", path.clone()).unwrap();
+        decompress(path, tar).unwrap();
+    }
 }
