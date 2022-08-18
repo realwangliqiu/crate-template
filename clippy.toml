@@ -1,0 +1,5 @@
+# specifying the minimum supported Rust version (MSRV)
+msrv = "1.60.0"
+
+# more information about which lints can be configured: https://rust-lang.github.io/rust-clippy/master/index.html
+

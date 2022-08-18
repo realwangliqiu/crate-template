@@ -17,7 +17,6 @@ data-encoding = "2.3"   # base64, base32, hex and so on
 
 
 
-
 [dev-dependencies]
 # apt-get install gnuplot
 criterion = "0.3"
